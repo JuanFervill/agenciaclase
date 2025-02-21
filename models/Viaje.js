@@ -4,6 +4,7 @@ import db from "../config/db.js";
 export const Viaje = db.define("viaje", {
     titulo: {
         type: Sequelize.STRING,
+        unique: true
     },
     precio: {
         type: Sequelize.STRING,

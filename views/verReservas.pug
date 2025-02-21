@@ -1,0 +1,51 @@
+extends ./layout/index
+
+block contenido
+    main.container.mt-5
+        h1.text-center.mt-5 #{pagina}
+        .row
+            .col-md-12
+                h2.d-block.w-100.text-center Consulte sus reservas
+
+            .row.justify-content-center.col
+                .col-md-8
+                    form(action="/consulta-reserva" method="POST")
+                        .form-group
+                            label(style="font-weight: bold;", for="email") Email
+                            input#email(type="mail", placeholder="Tu correo electrónico", name="email", class="form-control", value=email, required)
+
+                        input.btn.btn-success.btn-block(type="submit")
+                        if (errores)
+                            each error in errores
+                                .alert.col.alert-danger.text-center= error.mensaje
+        .container.mt-5
+            h3.text-center Datos de la Reserva
+            if reservas
+                each reserva in reservas
+                    .container.mb-4  <!-- Añade margen inferior -->
+                        .row.justify-content-center
+                            .col-md-6
+                                ul.list-group
+                                    li.list-group-item
+                                        strong Viaje:
+                                        | #{reserva.viaje}
+                                    li.list-group-item
+                                        strong Email:
+                                        | #{reserva.email}
+                                    li.list-group-item
+                                        strong Teléfono:
+                                        | #{reserva.telefono}
+                                    li.list-group-item
+                                        strong Fecha:
+                                        | #{moment(reserva.fecha).format('DD/MM/YYYY')}
+                                    li.list-group-item
+                                        if reserva.plan == 1
+                                            strong Plan:
+                                            | Cultural
+                                        else if reserva.plan == 2
+                                            strong Plan:
+                                            | Gastronomico
+                                        if reserva.plan == 3
+                                            strong Plan:
+                                            | Libre
+                                    a(href=`/borrar-reserva/${reserva.id}`, class="btn btn-danger") Anular reserva
